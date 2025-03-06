@@ -1,10 +1,7 @@
-const express = require('express')
 const app = require('./config/server/server')
 const port = process.env.PORT || 3000
 
 startHTTPServer()
-
-
 
 
 function startHTTPServer() {
