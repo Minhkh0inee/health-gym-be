@@ -24,39 +24,53 @@ class UserService {
     }
   }
 
-  async findUserById(userId){
-    try{
-      const userExist = await UserModel.findById(userId)
-      if(!userExist) {
-        throw new Error(`User with ${userId} not found`)
+  async findUserById(userId) {
+    try {
+      const userExist = await UserModel.findById(userId);
+      if (!userExist) {
+        throw new Error(`User with ${userId} not found`);
       }
-      return userExist
-    }catch(err){
-      throw new Error(err)
+      return userExist;
+    } catch (err) {
+      throw new Error(err);
     }
   }
 
-  async updateUserById(userId, newData){
-    try{
-      const userUpdate = UserModel.findByIdAndUpdate(userId, newData, {new: true})
+  async findUserByEmail(email) {
+    try {
+      const userExist = await UserModel.findOne({ email: email });
+      if (!userExist) {
+        throw new Error(`User with ${email} not found`);
+      }
+      return userExist;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  async updateUserById(userId, newData) {
+    try {
+      const userUpdate = UserModel.findByIdAndUpdate(userId, newData, {
+        new: true,
+      });
       if (!userUpdate) {
         throw new Error(`User with ${userId} found`);
       }
-      return userUpdate
-    }catch(err){
-      throw new Error(err)
+      return userUpdate;
+    } catch (err) {
+      throw new Error(err);
     }
   }
 
-  async deleteUserById(userId){
-    try{
-      const userDeleted = UserModel.findByIdAndDelete(userId)
+  async deleteUserById(userId) {
+    try {
+      const userDeleted = UserModel.findByIdAndDelete(userId);
       if (!userDeleted) {
         throw new Error(`User with ${userId} found`);
       }
-      return userDeleted
-    }catch(err){
-      throw new Error(err)
+      return userDeleted;
+    } catch (err) {
+      throw new Error(err);
     }
   }
 }

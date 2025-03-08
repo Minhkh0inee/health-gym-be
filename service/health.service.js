@@ -43,13 +43,14 @@ class HealthService {
         throw new Error(`User with ${userId} not found`);
       }
 
-      const userHealth = await HealthModel.find({ userId }).sort({ createdAt: -1 });
+      const userHealth = await HealthModel.find({ userId }).sort({
+        createdAt: -1,
+      });
       return userHealth;
     } catch (err) {
       throw new Error(`Failed to fetch health records: ${err.message}`);
     }
   }
-
 
   async getOne(userId, healthId) {
     try {
@@ -60,7 +61,7 @@ class HealthService {
 
       const healthRecord = await HealthModel.findOne({
         _id: healthId,
-        userId: userId
+        userId: userId,
       });
 
       if (!healthRecord) {
@@ -74,7 +75,7 @@ class HealthService {
   }
 
   async updateById(userId, healthId, updatedBody) {
-    console.log(updatedBody)
+    console.log(updatedBody);
     try {
       const userExist = await UserModel.findById(userId);
       if (!userExist) {
@@ -83,9 +84,9 @@ class HealthService {
 
       const healthExist = await HealthModel.findOne({
         _id: healthId,
-        userId: userId
+        userId: userId,
       });
-      
+
       if (!healthExist) {
         throw new Error(`Health record not found or doesn't belong to user`);
       }
@@ -111,20 +112,19 @@ class HealthService {
 
       const healthExist = await HealthModel.findOne({
         _id: healthId,
-        userId: userId
+        userId: userId,
       });
-      
+
       if (!healthExist) {
         throw new Error(`Health record not found or doesn't belong to user`);
       }
 
       await HealthModel.findByIdAndDelete(healthId);
-      
+
       // Remove health record reference from user
-      await UserModel.findByIdAndUpdate(
-        userId,
-        { $pull: { healthData: healthId } }
-      );
+      await UserModel.findByIdAndUpdate(userId, {
+        $pull: { healthData: healthId },
+      });
 
       return { message: "Health record deleted successfully" };
     } catch (err) {
