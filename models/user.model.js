@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
+const { types } = require("pg");
 const { Schema } = mongoose;
+
+const userRole = ['admin', 'user']
 
 const userSchema = new Schema(
   {
@@ -27,6 +30,13 @@ const userSchema = new Schema(
     dob: {
       type: String,
       required: true,
+    },
+    role: {
+      type: String,
+      enum: ['admin', 'user'],
+      default: 'user',
+      required: true
+      
     },
     avatarUrl: {
       type: String,

@@ -31,26 +31,27 @@ class AuthService {
     try {
       const { email, password } = signInBody;
       const userExisted = await userService.findUserByEmail(email);
+      
       if (!userExisted) {
-        throw new Error("Email is not be registerd !");
+        throw new Error("Email is not registered!");
       }
-
-      const isMatchPassword = await compareHashing(
-        password,
-        userExisted.password
-      );
+  
+      const isMatchPassword = await compareHashing(password, userExisted.password);
       if (!isMatchPassword) {
-        throw new Error("Password invalid !");
+        throw new Error("Password invalid!");
       }
-
-      let payload = { id: userExisted._id, email: userExisted.email };
+      let payload = { id: userExisted._id, email: userExisted.email, role: userExisted.role };
       const token = jwt.sign(payload, SECRET, { expiresIn: JWT_EXPIRED });
       const result = {
         payload,
         accessToken: token,
       };
+  
       return result;
-    } catch (err) {}
+    } catch (err) {
+      // Catching any error and throwing a response
+      throw new Error(err.message || "An error occurred during sign-in.");
+    }
   }
 }
 

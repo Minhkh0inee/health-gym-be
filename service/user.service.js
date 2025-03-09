@@ -36,15 +36,15 @@ class UserService {
     }
   }
 
-  async findUserByEmail(email) {
+  async findUserByEmail(userEmail) {
     try {
-      const userExist = await UserModel.findOne({ email: email });
+      const userExist = await UserModel.findOne({ email: userEmail });
       if (!userExist) {
-        throw new Error(`User with ${email} not found`);
+        throw new Error(`User with ${userEmail} not found`); // Corrected here
       }
       return userExist;
     } catch (err) {
-      throw new Error(err);
+      throw new Error(`User with ${userEmail} not found`); // Corrected here as well
     }
   }
 

@@ -75,7 +75,6 @@ class HealthService {
   }
 
   async updateById(userId, healthId, updatedBody) {
-    console.log(updatedBody);
     try {
       const userExist = await UserModel.findById(userId);
       if (!userExist) {
